@@ -51,6 +51,16 @@ class Walls(object):
 				self.borderT1=self.borderT2
 				self.borderT2=temp
 
+	def check_reverse(self,direction):
+		if self.prevdirection == "left":
+			return not direction == "right"
+		if self.prevdirection == "right":
+			return not direction == "left"
+		if self.prevdirection == "up":
+			return not direction == "down"
+		if self.prevdirection == "down":
+			return not direction == "up"
+
 	def make_path(self, maze_width,maze_height):
 		#remeber to make shur prv diraction is not = to corrunt direction 
 		x1,y1 = self.borderT1.pos()
@@ -59,7 +69,7 @@ class Walls(object):
 		print(x2,y2)
 		direction_list=["up","left","right","down"]
 		index = random.randint(0,3)
-		while(direction_list[index] == self.prevdirection or self.IsHitBorder(direction_list[index], maze_width, maze_height)):
+		while(not self.check_reverse(direction_list[index]) or self.IsHitBorder(direction_list[index], maze_width, maze_height)):
 			index = random.randint(0,3)
 		self.swapturtles(direction_list[index])
 		print(index)
